@@ -1,0 +1,50 @@
+<:Head>
+  <title>{{ page.title }}</title>
+  <meta name="description" content="{{ page.description }}">
+  <meta name="keywords" content="{{ page.keywords }}">
+</:Head>
+
+<Layout>
+  <h1>{{ page.title }}</h1>
+  <p>{{ page.subtitle }}</p>
+  {{ #each items as item @slug }}
+    <article>
+      {{ item.publishDate }}
+      <a rel="prefetch" href="/{{ $language }}/blog/{{ item.slug }}">
+        {{ item.title }}
+      </a>
+      <BlogAuthors authors="{{ item.authors }}" />
+    </article>
+  {{ /each }}
+</Layout>
+
+<style>
+  ul {
+    margin: 0 0 1em 0;
+    line-height: 1.5;
+  }
+</style>
+
+<script>
+  import { BlogAuthors, Layout } from '../../_components'
+  import { api, store } from '../../_core'
+
+  export default {
+    components: { BlogAuthors, Layout },
+    store: () => store,
+
+    oncreate() {
+      const language = 'en'
+      const section = 'blog'
+      this.store.set({ language, section })
+    },
+
+    async preload ({ params, query }) {
+      const [ page, items ] = await Promise.all([
+        api.getPage({ name: 'blog' }),
+        api.getItems({ collection: 'posts', fields: ['authors', 'publishDate', 'slug', 'title'] }),
+      ])
+      return { page, items }
+    }
+  }
+</script>

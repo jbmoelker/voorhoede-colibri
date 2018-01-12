@@ -1,0 +1,30 @@
+<:Head>
+  <title>{{ page.title }}</title>
+</:Head>
+
+<Layout>
+  <h1>{{ page.title }}</h1>
+  <PageContent content="{{ page.body }}" />
+</Layout>
+
+<script>
+  import { Layout, PageContent } from '../_components'
+  import { api, store } from '../_core'
+
+  export default {
+    components: { Layout, PageContent },
+    store: () => store,
+
+    oncreate() {
+      const language = this.get('language')
+      const section = 'team'
+      this.store.set({ language, section })
+    },
+
+    async preload ({ params, query }) {
+      const { language } = params
+      const page = await api.getPage({ name: 'team', language })
+      return { language, page }
+    }
+  }
+</script>

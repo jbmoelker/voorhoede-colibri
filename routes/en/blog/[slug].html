@@ -1,0 +1,52 @@
+<:Head><title>{{ item.title }}</title></:Head>
+<SocialMeta type="article" meta="{{ item.social }}" />
+
+<Layout>
+  <article>
+
+    <h1>{{ item.title }}</h1>
+    <p>{{ item.teaser }}</p>
+
+    <PageNav items="{{ item.navItems }}" />
+
+    <div>
+      <BlogAuthors authors="{{ item.authors }}" />
+      <time datetime="{{ item.publishDate }}">{{ prettyDate(item.publishDate) }}</time>
+    </div>
+
+    <PageContent content="{{ item.body }}" />
+
+  </article>
+</Layout>
+
+<script>
+  import { BlogAuthors, Layout, PageContent, PageNav, SocialMeta } from '../../_components'
+  import { api, store } from '../../_core'
+
+  export default {
+    components: { BlogAuthors, Layout, PageContent, PageNav, SocialMeta },
+    store: () => store,
+
+    helpers: {
+      prettyDate: timestamp => {
+        const date = new Date(timestamp)
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
+      }
+    },
+
+    oncreate() {
+      const language = 'en'
+      const section = 'blog'
+      const slug = this.get('slug')
+      this.store.set({ language, section, slug })
+    },
+
+    async preload ({ params, query }) {
+      const { slug } = params
+      const fields = ['title', 'social', 'teaser', 'navItems', 'authors', 'publishDate', 'body']
+      const item = await api.getItem({ collection: 'posts', slug, fields })
+      return { item, slug }
+    }
+  }
+</script>

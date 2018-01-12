@@ -1,0 +1,37 @@
+<:Head><title>{{ item.title }}</title></:Head>
+<SocialMeta type="article" meta="{{ item.social }}" />
+
+<Layout>
+  <article>
+
+    <h1>{{ item.title }}</h1>
+    <p>{{ item.subtitle }}</p>
+
+    <PageContent content="{{ item.body }}" />
+
+  </article>
+</Layout>
+
+<script>
+  import { Layout, PageContent, SocialMeta } from '../../_components'
+  import { api, store } from '../../_core'
+
+  export default {
+    components: { Layout, PageContent, SocialMeta },
+    store: () => store,
+
+    oncreate() {
+      const language = this.get('language')
+      const section = 'portfolio'
+      const slug = this.get('item').slug
+      this.store.set({ language, section, slug })
+    },
+
+    async preload ({ params, query }) {
+      const { language, slug } = params
+      const fields = ['title', 'social', 'subtitle', 'body']
+      const item = await api.getItem({ collection: 'projects', slug, language, fields })
+      return { item, language }
+    }
+  }
+</script>

@@ -1,0 +1,42 @@
+<:Head>
+  <title>{{ page.title }}</title>
+</:Head>
+
+<Layout>
+  <h1>{{ page.title }}</h1>
+    <p>{{ page.subtitle }}</p>
+  {{ #each items as item @slug }}
+    <a rel="prefetch" href="{{ router.link({ language, section: $section, slug: item.slug }) }}">
+      <div>
+        <h2>{{ item.title }}</h2>
+        <p>{{ item.subtitle }}</p>
+      </div>
+    </a>
+  {{ /each }}
+</Layout>
+
+<script>
+  import { Layout } from '../../_components'
+  import { api, router, store } from '../../_core'
+
+  export default {
+    components: { Layout },
+    store: () => store,
+    helpers: { router },
+
+    oncreate() {
+      const language = this.get('language')
+      const section = 'portfolio'
+      this.store.set({ language, section })
+    },
+
+    async preload ({ params, query }) {
+      const { language } = params
+      const [ page, items ] = await Promise.all([
+        api.getPage({ name: 'portfolio', language }),
+        api.getItems({ collection: 'projects', language, fields: ['slug', 'title', 'subtitle'] }),
+      ])
+      return { language, page, items }
+    }
+  }
+</script>

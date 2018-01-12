@@ -1,0 +1,30 @@
+<nav>
+  <details>
+    <summary>
+      <h2>{{ title }}</h2>
+    </summary>
+    <ol>
+      {{ #each items as item }}
+        <li>
+          <a href="#{{ item.id }}">{{{ item.html }}}</a>
+        </li>
+      {{ /each }}
+    </ol>
+  </details>
+</nav>
+
+<style>
+  ol {
+    list-style: none;
+  }
+</style>
+
+<script>
+  export default {
+    data () {
+      return {
+        title: 'Table of Contents',
+      }
+    }
+  }
+</script>

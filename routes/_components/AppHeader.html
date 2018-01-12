@@ -1,0 +1,74 @@
+<header role="banner">
+  <a href='/{{ $language }}'>De Voorhoede</a>
+  <nav>
+    <h2 class="a11y-sr-only">Site menu</h2>
+    <ul>
+      <li>
+        <a rel="prefetch" href="{{ router.link({ $language, section: 'portfolio' }) }}"
+        class="{{ $section === 'portfolio'  ? 'is-active' : '' }}"
+        >{{ #if $language === 'nl' }} werk {{ else }} work {{ /if }}</a>
+      </li>
+      <li><a rel="prefetch" href="/en/blog" class='{{ $section === "blog"  ? "is-active" : ""}}'>blog</a></li>
+      <li><a rel="prefetch" href="/{{ $language }}/team" class='{{ $section === "team"  ? "is-active" : ""}}'>team</a></li>
+      <li><a rel="prefetch" href="/{{ $language }}/contact" class='{{ $section === "contact"  ? "is-active" : ""}}'>contact</a></li>
+    </ul>
+
+    <ul>
+      {{ #each languages as language }}
+      <li>
+        {{ #if language === $language }}
+        <span class="is-active">{{ language }}</span>
+        {{ else }}
+        <a rel="alternate" hreflang="{{ language }}"
+           href="{{ router.link({ language, $section }) }}"
+           >{{ language }}</a>
+        {{ /if }}
+      </li>
+      {{ /each }}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #12353c;
+    font-weight: 300;
+    padding: 0 1em;
+  }
+
+  ul {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  .is-active {
+    font-weight: bold;
+  }
+
+  a {
+    text-decoration: none;
+    padding: 1em 0.5em;
+    display: block;
+  }
+</style>
+
+<script>
+  import { router } from '../_core'
+
+  export default {
+    helpers: { router },
+
+    data () {
+      return {
+        languages: ['nl', 'en'],
+      }
+    }
+  }
+</script>

@@ -1,0 +1,14 @@
+<span>
+  {{ #each authors as author }}
+    <Avatar src="{{ author.image.url }}" />
+  {{ /each }}
+  by {{ authors.map(author => author.name).join(' & ') }}
+</span>
+
+<script>
+  import Avatar from './Avatar.html'
+
+  export default {
+    components: { Avatar },
+  }
+</script>

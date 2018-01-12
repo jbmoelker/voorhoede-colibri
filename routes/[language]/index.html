@@ -1,0 +1,35 @@
+<:Head>
+  <title>{{ page.title }}</title>
+</:Head>
+
+<Layout>
+  <header>
+    <h1>{{{ page.headerTitle }}}</h1>
+    {{{ page.subtitle }}}
+  </header>
+  <section>
+    {{{ page.usps }}}
+  </section>
+</Layout>
+
+<script>
+  import { Layout } from '../_components'
+  import { api, store } from '../_core'
+
+  export default {
+    components: { Layout },
+    store: () => store,
+
+    oncreate() {
+      const language = this.get('language')
+      const section = undefined
+      this.store.set({ language, section })
+    },
+
+    async preload ({ params, query }) {
+      const { language } = params
+      const page = await api.getPage({ name: 'home', language })
+      return { language, page }
+    }
+  }
+</script>

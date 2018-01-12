@@ -1,0 +1,18 @@
+<:Head>
+  <meta property="og:site_name" content="www.voorhoede.nl">
+  <meta property="og:type" content="{{ type }}">
+  <meta name="description" content="{{ meta.description }}">
+  <meta property="og:title" content="{{ meta.title }}">
+  <meta property="og:description" content="{{ meta.description }}">
+  <meta property="og:image" content="{{ imageUrl }}">
+  <meta name="twitter:card" content="summary ">
+  <meta name="twitter:site" content="@devoorhoede">
+</:Head>
+
+<script>
+  export default {
+    computed: {
+      imageUrl: meta => meta.image ? `${meta.image.url}&auto=compress` : ''
+    }
+  }
+</script>

@@ -1,0 +1,17 @@
+<AppHeader />
+<main>
+  <slot></slot>
+</main>
+<AppFooter />
+
+<script>
+  import AppFooter from './AppFooter.html'
+  import AppHeader from './AppHeader.html'
+
+  export default {
+    components: {
+      AppFooter,
+      AppHeader,
+    }
+  }
+</script>
