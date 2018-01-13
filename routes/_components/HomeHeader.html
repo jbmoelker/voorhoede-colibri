@@ -13,16 +13,18 @@
   <h1>{{{ title }}}</h1>
   {{{ subtitle }}}
 
+  <ArrowDown />
 </header>
 
 <style>
   @import '_core/variables.css';
 
   .home-header {
+    position: relative;
+    padding: 0 20px 80px;
     background-color: var(--brand-yellow);
     color: var(--brand-blue);
     text-align: center;
-    padding: 0 20px 80px;
   }
 
   .home-header__image {
@@ -36,9 +38,10 @@
 </style>
 
 <script>
+  import ArrowDown from './ArrowDown.html'
   import FixedRatio from './FixedRatio.html'
 
   export default {
-    components: { FixedRatio },
+    components: { ArrowDown, FixedRatio },
   }
 </script>

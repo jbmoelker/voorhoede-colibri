@@ -1,0 +1,41 @@
+<a id="start" href="#start" class="arrow-down">
+  <img
+    alt="scroll down"
+    src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2251.1%22%20height%3D%2250.2%22%20viewBox%3D%2225.94%2022.88%2051.07%2050.2%22%3E%3Cpath%20fill%3D%22%23F3E325%22%20d%3D%22M50.3%2023h2.3v46l23-23%201.4%201.5L51.4%2073%2026%2047.6l1.4-1.5%2023%2023V23z%22%2F%3E%3C%2Fsvg%3E"
+    class="arrow-down__image"
+  >
+</a>
+
+<style>
+  @import '_core/variables.css';
+
+  .arrow-down {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: -0.75em;
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: -0.75em;
+    font-size: 2.5em;
+    border-radius: 50%;
+    background-color: var(--brand-blue);
+    color: var(--brand-yellow);
+    text-align: center;
+    vertical-align: top;
+    line-height: 1.5;
+    border: none;
+    transition: background-color .1s ease;
+  }
+
+  .arrow-down:hover,
+  .arrow-down:focus {
+    background-color: var(--brand-highlight);
+    border: none;
+  }
+
+  .arrow-down__image {
+    width: 50%;
+    display: inline-block;
+  }
+</style>
