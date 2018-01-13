@@ -3,21 +3,18 @@
 </:Head>
 
 <Layout>
-  <header>
-    <h1>{{{ page.headerTitle }}}</h1>
-    {{{ page.subtitle }}}
-  </header>
+  <HomeHeader title="{{ page.headerTitle }}" subtitle="{{ page.subtitle }}" />
   <section>
     {{{ page.usps }}}
   </section>
 </Layout>
 
 <script>
-  import { Layout } from '../_components'
+  import { HomeHeader, Layout } from '../_components'
   import { api, store } from '../_core'
 
   export default {
-    components: { Layout },
+    components: { HomeHeader, Layout },
     store: () => store,
 
     oncreate() {

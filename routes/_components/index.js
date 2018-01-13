@@ -1,5 +1,6 @@
 export { default as Avatar } from './Avatar.html'
 export { default as BlogAuthors } from './BlogAuthors.html'
+export { default as HomeHeader } from './HomeHeader.html'
 export { default as Layout } from './Layout.html'
 export { default as PageContent } from './PageContent.html'
 export { default as PageNav } from './PageNav.html'

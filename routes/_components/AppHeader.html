@@ -1,4 +1,4 @@
-<header role="banner">
+<header role="banner" class="app-header">
   <a href='/{{ $language }}'>De Voorhoede</a>
   <nav>
     <h2 class="a11y-sr-only">Site menu</h2>
@@ -30,10 +30,16 @@
 </header>
 
 <style>
+  @import '_core/variables.css';
+
+  .app-header {
+    background-color: var(--brand-yellow);
+    color: var(--brand-blue);
+  }
+
   header {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #12353c;
     font-weight: 300;
     padding: 0 1em;
   }

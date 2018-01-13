@@ -20,7 +20,7 @@ module.exports = {
           loader: 'svelte-loader',
           options: {
             hydratable: true,
-            emitCss: !isDev,
+            emitCss: true,
             cascade: false,
             store: true
           }
@@ -30,14 +30,24 @@ module.exports = {
         test: /\.css$/,
         use: [
           { loader: 'style-loader' },
-          { loader: 'css-loader' }
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                path: `${__dirname}/postcss.config.js`
+              }
+            }
+          }
         ]
       },
       !isDev && {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [{ loader: 'css-loader', options: { sourceMap:isDev } }]
+          use: [
+            { loader: 'css-loader', options: { sourceMap: true } }
+          ]
         })
       }
     ].filter(Boolean)
