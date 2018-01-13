@@ -6,8 +6,8 @@ function getItem({ collection, slug, language, fields }) {
   return fetchJson(`/${collection}/${slug}?language=${language}&fields=${fields.join(',')}`)
 }
 
-function getItems({ collection, language, fields }) {
-  return fetchJson(`/${collection}?language=${language}&fields=${fields.join(',')}`)
+function getItems({ collection, language, fields, limit }) {
+  return fetchJson(`/${collection}?language=${language}&fields=${fields.join(',')}&limit=${limit}`)
 }
 
 function getPage({ name, language }) {

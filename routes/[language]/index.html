@@ -7,14 +7,30 @@
   <section>
     {{{ page.usps }}}
   </section>
+  <section>
+    <h2>Latest blog posts</h2>
+    <ol>
+    {{ #each posts as item @slug }}
+      <li>
+        <article lang="en">
+          <a rel="prefetch" hreflang="en" href="/en/blog/{{ item.slug }}">
+            <h3>{{ item.title }}</h3>
+          </a>
+          <BlogAuthors authors="{{ item.authors }}" />
+        </article>
+      </li>
+    {{ /each }}
+    </ol>
+    <a href="/en/blog">View all blog posts</a>
+  </section>
 </Layout>
 
 <script>
-  import { HomeHeader, Layout } from '../_components'
+  import { BlogAuthors, HomeHeader, Layout } from '../_components'
   import { api, store } from '../_core'
 
   export default {
-    components: { HomeHeader, Layout },
+    components: { BlogAuthors, HomeHeader, Layout },
     store: () => store,
 
     oncreate() {
@@ -25,8 +41,11 @@
 
     async preload ({ params, query }) {
       const { language } = params
-      const page = await api.getPage({ name: 'home', language })
-      return { language, page }
+      const [ page, posts ] = await Promise.all([
+        api.getPage({ name: 'home', language }),
+        api.getItems({ collection: 'posts', fields: ['title', 'slug', 'authors', 'publishDate'], limit: 3 }),
+      ])
+      return { language, page, posts }
     }
   }
 </script>
