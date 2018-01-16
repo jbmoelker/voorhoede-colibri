@@ -31,14 +31,7 @@ module.exports = {
         use: [
           { loader: 'style-loader' },
           { loader: 'css-loader' },
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                path: `${__dirname}/postcss.config.js`
-              }
-            }
-          }
+          { loader: 'postcss-loader', options: { config: { path: `${__dirname}/postcss.config.js` } } }
         ]
       },
       !isDev && {
@@ -46,7 +39,8 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            { loader: 'css-loader', options: { sourceMap: true } }
+            { loader: 'css-loader', options: { sourceMap: true } },
+            { loader: 'postcss-loader', options: { config: { path: `${__dirname}/postcss.config.js` } } }
           ]
         })
       }
