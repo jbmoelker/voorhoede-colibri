@@ -14,7 +14,7 @@
       <time datetime="{{ item.publishDate }}">{{ prettyDate(item.publishDate) }}</time>
     </div>
 
-    <PageContent content="{{ item.body }}" />
+    <PageContent items="{{ item.bodyItems }}" />
 
   </article>
 </Layout>
@@ -44,7 +44,7 @@
 
     async preload ({ params, query }) {
       const { slug } = params
-      const fields = ['title', 'social', 'teaser', 'navItems', 'authors', 'publishDate', 'body']
+      const fields = ['title', 'social', 'teaser', 'navItems', 'authors', 'publishDate', 'bodyItems']
       const item = await api.getItem({ collection: 'posts', slug, fields })
       return { item, slug }
     }

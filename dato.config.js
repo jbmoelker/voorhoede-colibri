@@ -1,5 +1,6 @@
-const markdownToHtml = require('./lib/markdown-to-html')
+const bodyToItems = require('./lib/body-to-items')
 const listHeadings = require('./lib/list-headings')
+const markdownToHtml = require('./lib/markdown-to-html')
 
 const languages = ['nl', 'en']
 
@@ -29,19 +30,16 @@ function itemToJsonI18n (item, i18n) {
   return languages.reduce((itemI18n, language) => {
     i18n.locale = language
     itemI18n[language] = itemToJson(item)
-    // if (itemI18n[language].slug) {
-    //   itemI18n[language].slugI18n = languages.reduce((slugI18n, language) => {
-    //     slugI18n[language] = i18n.withLocale(language, () => item.slug)
-		// 	}, {})
-    // }
     return itemI18n
   }, {})
 }
 
 function itemToJson (item) {
   const itemJson = item.toMap()
-  itemJson.body = markdownToHtml(item.body)
-  itemJson.navItems = listHeadings(itemJson.body)
+  const body = markdownToHtml(item.body)
+  itemJson.body = body
+  itemJson.bodyItems = bodyToItems(body, { images: itemJson.images })
+  itemJson.navItems = listHeadings(body)
   return removeSeoMetaTags(itemJson)
 }
 

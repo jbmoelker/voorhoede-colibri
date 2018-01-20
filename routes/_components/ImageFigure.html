@@ -1,0 +1,47 @@
+<figure class="image-figure">
+  {{ #if isResponsiveImage }}
+  <FixedRatio width="{{ image.width }}" height="{{ image.height }}">
+    <picture>
+      <!--[if IE 9]><video style="display:none"><![endif]-->
+      <source media="(min-width: 570px)" type="image/webp" srcset="{{ imageUrl(image.src, { fm: 'webp', width: 990 }) }}">
+      <source media="(min-width: 320px)" type="image/webp" srcset="{{ imageUrl(image.src, { fm: 'webp', width: 570 }) }}">
+      <source media="(min-width: 570px)" srcset="{{ imageUrl(image.src, { width: 990 }) }}">
+      <source media="(min-width: 320px)" srcset="{{ imageUrl(image.src, { width: 570 }) }}">
+      <!--[if IE 9]><![endif]-->
+      <img class="image-figure__image" alt="{{ image.alt }}" src="{{ imageUrl(image.src, { width: 320 }) }}">
+    </picture>
+  </FixedRatio>
+  {{ else }}
+  <img class="image-figure__image" alt="{{ image.alt }}" src="{{ image.src }}">
+  {{ /if }}
+  {{ #if image.title }}
+    <figcaption class="image-figure__caption">{{ image.title }}</figcaption>
+  {{ /if }}
+</figure>
+
+<style>
+  .image-figure {
+    margin: 0;
+  }
+
+  .image-figure__image {
+    width: 100%;
+  }
+
+  .image-figure__caption {
+    text-align: center;
+  }
+</style>
+
+<script>
+  import FixedRatio from './FixedRatio'
+  import imageUrl from '../_core/image-url'
+
+  export default {
+    components: { FixedRatio },
+    helpers: { imageUrl },
+    computed: {
+      isResponsiveImage: image => image.width && image.height
+    }
+  }
+</script>

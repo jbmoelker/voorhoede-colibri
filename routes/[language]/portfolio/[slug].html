@@ -7,7 +7,7 @@
     <h1>{{ item.title }}</h1>
     <p>{{ item.subtitle }}</p>
 
-    <PageContent content="{{ item.body }}" />
+    <PageContent items="{{ item.bodyItems }}" />
 
   </article>
 </Layout>
@@ -29,7 +29,7 @@
 
     async preload ({ params, query }) {
       const { language, slug } = params
-      const fields = ['title', 'social', 'subtitle', 'body']
+      const fields = ['title', 'social', 'subtitle', 'bodyItems']
       const item = await api.getItem({ collection: 'projects', slug, language, fields })
       return { item, language }
     }
