@@ -1,5 +1,10 @@
+//import axios from 'axios'
+
+const baseUrl = 'http://localhost:2473/api'
+
 function fetchJson(request) {
-  return fetch(`http://localhost:2473/api${request}`).then(response => response.json())
+  //return axios.get(`${baseUrl}${request}`).then(response => response.data)
+  return fetch(`${baseUrl}${request}`).then(response => response.json())
 }
 
 function getItem({ collection, slug, language, fields }) {

@@ -1,13 +1,27 @@
 require('dotenv').config()
-const dataLoader = require('../data-loader')
+const dataLoader = require('./data-loader')
 const express = require('express')
 const pick = require('lodash/pick')
 const schema = require('./schema')
 const swaggerAssetDir = require('swagger-ui-dist').absolutePath()
 
+const { PORT = 2473 } = process.env
+const reloadToken = process.env.RELOAD_TOKEN
+
+const app = express()
 const router = express.Router()
 
-const reloadToken = process.env.RELOAD_TOKEN
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  next()
+})
+
+app.use('/api/', router)
+
+app.listen(PORT, () => {
+  console.log(`listening on port http://localhost:${PORT}/api`)
+})
+
 const sortByPublishDate = (a, b) => new Date(b.publishDate) - new Date(a.publishDate)
 const fieldsToArray = (fields) => {
   if (Array.isArray(fields)) {

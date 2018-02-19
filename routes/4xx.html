@@ -1,0 +1,18 @@
+<:Head>
+	<title>Not found</title>
+</:Head>
+
+<Layout>
+	<h1>Not found</h1>
+	<p>Please check the URL</p>
+</Layout>
+
+<script>
+  import {Layout } from './_components'
+  import { api, store } from './_core'
+
+  export default {
+    components: { Layout },
+    store: () => store,
+	};
+</script>

@@ -1,6 +1,6 @@
 const confirmReload = require('./confirm-reload')
 const delay = require('delay')
-const dumpData = Promise.resolve()// require('./dump-data')
+const dumpData = require('./dump-data')
 const loadData = require('./load-data')
 
 let cachedData
