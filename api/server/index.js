@@ -1,6 +1,7 @@
 require('dotenv').config()
 const dataLoader = require('./data-loader')
 const express = require('express')
+const graphqlServer = require('./graphql')
 const pick = require('lodash/pick')
 const schema = require('./schema')
 const swaggerAssetDir = require('swagger-ui-dist').absolutePath()
@@ -17,9 +18,17 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/', router)
+app.use('/graphql/', graphqlServer)
+app.get('/', (req, res) => res.send(`
+  <h1>API</h1>
+  <ul>
+    <li><a href="/api">REST</a></li>
+    <li><a href="/graphql/">GraphQL</a></li>
+  </ul>
+`))
 
 app.listen(PORT, () => {
-  console.log(`listening on port http://localhost:${PORT}/api`)
+  console.log(`listening on port http://localhost:${PORT}`)
 })
 
 const sortByPublishDate = (a, b) => new Date(b.publishDate) - new Date(a.publishDate)
