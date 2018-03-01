@@ -14,4 +14,17 @@ function getPage({ name, language }) {
   return fetchJson(`/${name}?language=${language}`)
 }
 
-export default { fetchJson, getItem, getItems, getPage }
+function requestQuery(query) {
+  return fetch(`http://localhost:2473/graphql`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query, variables: null }),
+  })
+  .then(response => response.json())
+  .then(json => json.data)
+}
+
+export default { fetchJson, getItem, getItems, getPage, requestQuery }

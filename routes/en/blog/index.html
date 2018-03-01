@@ -40,11 +40,19 @@
     },
 
     async preload ({ params, query }) {
-      const [ page, items ] = await Promise.all([
-        api.getPage({ name: 'blog' }),
-        api.getItems({ collection: 'posts', fields: ['authors', 'publishDate', 'slug', 'title'] }),
-      ])
-      return { page, items }
+      const { blog, posts } = await api.requestQuery(`
+        query {
+          blog { title subtitle description keywords }
+          posts {
+            title slug publishDate
+            authors {
+              name
+              image { url }
+            }
+          }
+        }
+      `)
+      return { page: blog, items: posts }
     }
   }
 </script>

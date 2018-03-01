@@ -35,6 +35,17 @@ const AuthorType = new GraphQLObjectType({
   }
 })
 
+const BlogType = new GraphQLObjectType({
+  name: 'Blog',
+  description: '',
+  fields: {
+    title: { type: GraphQLString },
+    subtitle: { type: GraphQLString },
+    description: { type: GraphQLString },
+    keywords: { type: GraphQLString },
+  }
+})
+
 // const BodyItemType = new GraphQLObjectType({
 //   name: 'BodyItem',
 //   description: '',
@@ -84,6 +95,10 @@ const PostType = new GraphQLObjectType({
 const queryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
+    blog: {
+      type: BlogType,
+      resolve: (_, args) => dataLoader.load('blog')
+    },
     posts: {
       type: new GraphQLList(PostType),
       resolve: (_, args) => dataLoader.load('posts')
