@@ -2,6 +2,7 @@ const dataLoader = require('../data-loader')
 const {
   graphql,
   GraphQLBoolean,
+  GraphQLEnumType,
   GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
@@ -10,6 +11,14 @@ const {
   GraphQLString,
   GraphQLUnionType,
 } = require('graphql')
+
+const LanguageType = new GraphQLEnumType({
+  name: 'Language',
+  values: {
+    en: { value: "en" },
+    nl: { value: "nl" },
+  }
+})
 
 const ImageType = new GraphQLObjectType({
   name: 'Image',
@@ -122,6 +131,31 @@ const PostType = new GraphQLObjectType({
   }
 })
 
+
+const ProjectType = new GraphQLObjectType({
+  name: 'Project',
+  description: '',
+  fields: {
+    body: { type: GraphQLString },
+    bodyItems: { type: new GraphQLList(BodyItemType) },
+    images: { type: new GraphQLList(ImageType) },
+    social: { type: SocialType },
+    published: { type: GraphQLBoolean },
+    slug: { type: GraphQLString },
+    title: { type: GraphQLString },
+    subtitle: { type: GraphQLString },
+    excerpt: { type: GraphQLString },
+    navItems: { type: new GraphQLList(NavItemType) },
+    isExternalLink: { type: GraphQLBoolean },
+    linkText: { type: GraphQLString },
+    linkUrl: { type: GraphQLString },
+    // contact: { type: ... },
+    // service: { type: ... },
+    // summary: { type: ... },
+    // techniques: { type: ... },
+  }
+})
+
 const queryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
@@ -136,12 +170,29 @@ const queryType = new GraphQLObjectType({
     post: {
       type: PostType,
       args: {
-        slug: {
-          type: new GraphQLNonNull(GraphQLString),
-        },
+        slug: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: (_, args) => dataLoader.load('posts')
-        .then(posts => posts.find(item => item.slug === args.slug))
+        .then(items => items.find(item => item.slug === args.slug))
+      ,
+    },
+    projects: {
+      type: new GraphQLList(ProjectType),
+      args: {
+        language: { type: new GraphQLNonNull(LanguageType) },
+      },
+      resolve: (_, args) => dataLoader.load('projects')
+        .then(itemsI18n => itemsI18n[args.language])
+    },
+    project: {
+      type: ProjectType,
+      args: {
+        language: { type: new GraphQLNonNull(LanguageType) },
+        slug: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (_, args) => dataLoader.load('projects')
+        .then(itemsI18n => itemsI18n[args.language])
+        .then(items => items.find(item => item.slug === args.slug))
       ,
     },
   },
