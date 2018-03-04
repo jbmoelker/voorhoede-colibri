@@ -8,6 +8,7 @@ const {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
+  GraphQLUnionType,
 } = require('graphql')
 
 const ImageType = new GraphQLObjectType({
@@ -46,13 +47,42 @@ const BlogType = new GraphQLObjectType({
   }
 })
 
-// const BodyItemType = new GraphQLObjectType({
-//   name: 'BodyItem',
-//   description: '',
-//   fields: {
+const HtmlItemType = new GraphQLObjectType({
+    name: 'HtmlItem',
+    description: '',
+    fields: {
+      type: { type: GraphQLString },
+      html: { type: GraphQLString },
+    }
+})
 
-//   }
-// })
+const ImageItemType = new GraphQLObjectType({
+  name: 'ImageItem',
+  description: '',
+  fields: {
+    type: { type: GraphQLString },
+    alt: { type: GraphQLString },
+    title: { type: GraphQLString },
+    src: { type: GraphQLString },
+    format: { type: GraphQLString },
+    height: { type: GraphQLInt },
+    width: { type: GraphQLInt },
+  }
+})
+
+const BodyItemType = new GraphQLUnionType({
+  name: 'BodyItem',
+  description: '',
+  types: [HtmlItemType, ImageItemType],
+  resolveType(value) {
+    if (value.type === 'html') {
+      return HtmlItemType;
+    }
+    if (value.type === 'image') {
+      return ImageItemType;
+    }
+  }
+})
 
 const SocialType = new GraphQLObjectType({
   name: 'Social',
@@ -79,7 +109,7 @@ const PostType = new GraphQLObjectType({
   description: '',
   fields: {
     body: { type: GraphQLString },
-    //bodyItems: { type: new GraphQLList(...) },
+    bodyItems: { type: new GraphQLList(BodyItemType) },
     images: { type: new GraphQLList(ImageType) },
     teaser: { type: GraphQLString },
     authors: { type: new GraphQLList(AuthorType) },
